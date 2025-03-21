@@ -57,9 +57,9 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['corso'])) {
         $html_card .= '<h2 id="answer" style="display:none">' . $card['NativeWord'] . '</h2>';   
         $html_card .= '<button onclick="showAnswer()" >Mostra Risposta</button>';     
         $html_card .= '<form action="'.$_SERVER['PHP_SELF'].'" method="POST">';
-        $html_card .= '<button type="submit" name="Risposta" value="1">1 Minute</button>';
-        $html_card .= '<button type="submit" name="Risposta" value="5">5 Minutes</button>';
-        $html_card .= '<button type="submit" name="Risposta" value="30">30 Minutes</button>';
+        $html_card .= '<button type="submit" name="Risposta" value="1">1 Minute (Very Hard)</button>';
+        $html_card .= '<button type="submit" name="Risposta" value="5">5 Minutes (Hard)</button>';
+        $html_card .= '<button type="submit" name="Risposta" value="30">30 Minutes (Easy)</button>';
         $html_card .= '</form>';
         $html_card .= '</div>';
     }
