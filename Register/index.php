@@ -32,27 +32,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Registrati</title>
 </head>
 <body>
-    
+
+<div id="container">
 <h1>Registrati</h1>
 
 <h4><?=$err_msg?></h4>
 
 <form action="<?=$_SERVER["PHP_SELF"]?>" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" pattern=".{3,}" required>
+    <input type="text" id="username" name="username" pattern=".{3,}" placeholder="Username" required>
     <br><br>
-    <label for="username">Email:</label>
-    <input type="email" id="email" name="email" pattern=".{3,}" required>
+    <input type="email" id="email" name="email" pattern=".{3,}" placeholder="Email" required>
     <br><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" pattern=".{3,}" required>
+    <input type="password" id="password" name="password" pattern=".{3,}" placeholder="Password" required>
     <br><br>
     <input type="submit" value="Registrati">
 </form>
 
 <a href="../Login">Login</a>
+</div>
 </body>
 </html>

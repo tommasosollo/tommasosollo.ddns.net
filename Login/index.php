@@ -40,26 +40,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Login</title>
 </head>
 <body>
 
-<h1>Login</h1>
+<div id="container">
+    <h1>Login</h1>
 
-<!-- Display the error message, if any -->
-<h4><?= htmlspecialchars($err_msg) ?> </h4> <!-- Use htmlspecialchars for security -->
+    <!-- Display the error message, if any -->
+    <h4><?= htmlspecialchars($err_msg) ?> </h4> <!-- Use htmlspecialchars for security -->
 
-<form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <br><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <br><br>
-    <input type="submit" value="Login">
-</form>
+    <form action="<?= $_SERVER['PHP_SELF'] ?>" method="post">
+        <input type="text" id="username" name="username" placeholder="Username" required>
+        <br><br>
+        
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <br><br>
+        <input type="submit" value="Login">
+    </form>
 
-<a href="../Register">Registrati</a>
-
+    <a href="../Register">Registrati</a>
+</div>
 </body>
 </html>
