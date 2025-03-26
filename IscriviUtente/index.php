@@ -5,7 +5,7 @@ require '../functions.php';
 session_start();
 
 if(!isset($_SESSION['user'])){
-    //header('location: ../Login');
+    header('location: ../Login');
 }
 
 $corso = $_GET['corso'];

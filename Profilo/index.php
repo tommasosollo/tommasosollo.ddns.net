@@ -11,14 +11,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Profilo</title>
 </head>
 <body>
-    <h1>Ciao <?=$_SESSION['user']?></h1>
+    <header>
+        <h1>Ciao <?=$_SESSION['user']?></h1>
+            <a href="../Homepage">Homepage</a>
+            <a href="../Logout">Logout</a>
+    </header>
     <br><br>
-    <a href="../Homepage">Homepage</a>
-    <br>
-    <a href="../Logout">Logout</a>
 
 </body>
 </html>

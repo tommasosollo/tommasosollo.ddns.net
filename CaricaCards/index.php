@@ -15,10 +15,11 @@ $html_form = '';
 // Form di caricamento del file
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $html_form = '<form action="' . $_SERVER['PHP_SELF'] . '" method="post" enctype="multipart/form-data">';
+    $html_form .= '<label for="fileToUpload">Seleziona il file CSV</label>';
     $html_form .= '<input type="file" name="fileToUpload" id="fileToUpload" accept=".csv">';
     $html_form .= '<br>';
     $html_form .= '<br>';
-    $html_form .= '<label for="corso">Lingua:</label>';
+    $html_form .= '<label for="lingua">Lingua:</label>';
     $html_form .= '<select name="lingua" id="lingua">';
     
     // Recupera i corsi da database
@@ -99,12 +100,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Carica Cards</title>
 </head>
 <body>
-    <h1>Carica Cards</h1>
+    <header>
+        <h1>Carica Cards</h1>
+        <a href="../Homepage">Vai alla Homepage</a>
+        <a href="../Libreria">Vai alla libreria</a>
+        
+    </header>
+    <br><br>
+    
     <?=$err_msg != '' ? $err_msg : $html_form?>
 
-    <a href="../Homepage">Torna alla Homepage</a>
 </body>
 </html>

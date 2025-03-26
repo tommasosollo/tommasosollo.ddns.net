@@ -76,10 +76,14 @@ if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['corso'])) {
     <title>Play FlashCards</title>
 </head>
 <body>
-    <h1>Play FlashCards</h1>
+    <header>
+        <h1>Play FlashCards</h1>
+        <a href="../Homepage">Vai alla Homepage</a>
+    </header>
+    <br><br>
+    
     <?=$err_msg != '' ? $err_msg : $html_card?>
     <br><br>
-    <a href="../Homepage">Torna alla Homepage</a>
 </body>
 </html>
 

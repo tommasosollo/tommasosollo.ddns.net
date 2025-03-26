@@ -21,17 +21,18 @@
         $err_msg = $corsi_utente;
     } else {
 
-        $html_table = '<table>';
+        $html_table = '<div id="corsi">';
 
         foreach($corsi_utente as $corso){
-            $html_table .= '<tr>';
-            $html_table .= '<td>' . $corso['Nome'] . '</td>';
-            $html_table .= '<td><a href="../PlayFlashCards?corso=' . urlencode($corso['IDCorso']) . '">Gioca</a></td>';
-            $html_table.= '<td><a href="../Disiscriviti?corso=' . urlencode($corso['IDCorso']) . '">Disiscriviti</a></td>';
-            $html_table .= '</tr>';
+            $html_table .= '<div class="corso">';
+            $html_table .= '<h3>' . $corso['Nome'] . '</h3>';
+            $html_table .= '<br>';
+            $html_table .= '<a href="../PlayFlashCards?corso=' . urlencode($corso['IDCorso']) . '" class="links">Gioca</a>';
+            $html_table.= '<a href="../Disiscriviti?corso=' . urlencode($corso['IDCorso']) . '" class="links">Disiscriviti</a>';
+            $html_table .= '</div>';
         }
 
-        $html_table .= '</table>';
+        $html_table .= '</div>';
     }
 
 ?>
@@ -42,19 +43,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Homepage</title>
 </head>
 <body>
+    <header>
+        <h1>Homepage</h1>
+        <a href="../Libreria">Vai alla libreria</a>
+        <a href="../Profilo">Vai al profilo</a>
+        <a href="../CaricaCards">Carica Cards</a>
+    </header>
+    <br><br>
     <h1>Benvenuto <?=$_SESSION['user']?></h1>
     <br><br>
     <h2>I tuoi corsi:</h2>
     <?=$err_msg != '' ? $err_msg : $html_table?>
-    <br><br>
-    <a href="../Libreria">Vai alla libreria</a>
-    <br><br>
-    <a href="../Profilo">Vai al profilo</a>
-    <br><br>
-    <a href="../CaricaCards">Carica Cards</a>
 </body>
 </html>
 
