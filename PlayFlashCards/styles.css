@@ -29,6 +29,18 @@ input {
   cursor: pointer;
 }
 
+button[value="1"] {
+  background-color: #ee6055;
+}
+
+button[value="5"] {
+  background-color: #ffd97d;
+}
+
+button[value="30"] {
+  background-color: #aaf683;
+}
+
 header a {
   text-decoration: none;
   color: #252422;
