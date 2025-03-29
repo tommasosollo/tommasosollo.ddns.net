@@ -95,25 +95,6 @@ function get_corsi() {
     }
 }
 
-function get_lingue() {
-    $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
-    if (!$conn) {
-        throw new Exception("Errore di connessione al database");
-    }
-    
-    $query = "SELECT * FROM Lingue";
-    $result = mysqli_query($conn, $query);
-    
-    while ($row = mysqli_fetch_assoc($result)) {
-        $lingue[] = $row;
-    }
-    
-    if (mysqli_num_rows($result) > 0) {
-        return [true, $lingue];
-    } else {
-        return [false, "Nessuna lingua disponibile"];
-    }
-}
 
 function get_libreria_corsi($username) {
     $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
@@ -214,19 +195,19 @@ function disiscrivi_utente($corso, $username) {
 }
 
 
-function carica_card($foreign_word, $native_word, $lingua) {
+function carica_card($foreign_word, $native_word, $corso) {
     $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
     if (!$conn) {
         throw new Exception("Errore di connessione al database");
     }
     
-    $query = "SELECT * FROM Cards WHERE ForeignWord = '$foreign_word' AND NativeWord = '$native_word' AND IDLingua = (SELECT IDLingua FROM Lingue WHERE Nome = '$lingua')";
+    $query = "SELECT * FROM Cards WHERE ForeignWord = '$foreign_word' AND NativeWord = '$native_word' AND IDCorso = (SELECT IDCorso FROM Corsi WHERE Nome = '$corso')";
     $result = mysqli_query($conn, $query);
     
     if (mysqli_num_rows($result) > 0) {
         return [false, "Carta già esistente"];
     } else {
-        $query = "INSERT INTO Cards (ForeignWord, NativeWord, IDLingua) VALUES ('$foreign_word', '$native_word', (SELECT IDLingua FROM Lingue WHERE Nome = '$lingua'))";
+        $query = "INSERT INTO Cards (ForeignWord, NativeWord, IDCorso) VALUES ('$foreign_word', '$native_word', (SELECT IDCorso FROM Corsi WHERE Nome = '$corso'))";
         if (mysqli_query($conn, $query)) {
             return [true, "Carta creata con successo"];
         } else {
@@ -255,7 +236,7 @@ function crea_mazzo($corso) {
         JOIN Cards c ON v.IDCard = c.IDCard
         WHERE v.IDUtente = (SELECT IDUtente FROM Utenti WHERE Username = ?)
         AND TIMESTAMPDIFF(MINUTE, v.LastSeen, NOW()) >= v.MinutesToPass
-        AND c.IDLingua = (SELECT IDLingua FROM Corsi WHERE IDCorso = ?)
+        AND c.IDCorso = ?
         ORDER BY RAND() LIMIT 30";
 
     $stmt = mysqli_prepare($conn, $query);
@@ -278,7 +259,7 @@ function crea_mazzo($corso) {
         $query = "
             SELECT c.IDCard, c.ForeignWord, c.NativeWord 
             FROM Cards c
-            WHERE c.IDLingua = (SELECT IDLingua FROM Corsi WHERE IDCorso = ?)
+            WHERE c.IDCorso = ?
             AND c.IDCard NOT IN (
                 SELECT v.IDCard FROM Visione v 
                 WHERE v.IDUtente = (SELECT IDUtente FROM Utenti WHERE Username = ?)

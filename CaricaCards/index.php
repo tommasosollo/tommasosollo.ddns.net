@@ -19,21 +19,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     $html_form .= '<input type="file" name="fileToUpload" id="fileToUpload" accept=".csv">';
     $html_form .= '<br>';
     $html_form .= '<br>';
-    $html_form .= '<label for="lingua">Lingua:</label>';
-    $html_form .= '<select name="lingua" id="lingua">';
+    $html_form .= '<label for="corso">Corso:</label>';
+    $html_form .= '<select name="corso" id="corso">';
     
     // Recupera i corsi da database
     try {
-        [$retval, $lingue] = get_lingue();
+        [$retval, $corsi] = get_corsi();
     } catch (Exception $e) {
         $err_msg = $e->getMessage();
     }
 
     if (!$retval) {
-        $err_msg = $lingue;
+        $err_msg = $corsi;
     } else {
-        foreach ($lingue as $lingua) {
-            $html_form .= '<option value="' . $lingua['Nome'] . '">' . $lingua['Nome'] . '</option>';
+        foreach ($corsi as $corso) {
+            $html_form .= '<option value="' . $corso['Nome'] . '">' . $corso['Nome'] . '</option>';
         }
     }
 
@@ -65,11 +65,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (count($word) >= 2) {
                     $foreignWord = trim($word[0]);
                     $nativeWord = trim($word[1]);
-                    $lingua = $_POST['lingua'];              
+                    $corso = $_POST['corso'];              
                     $err_msg = '';
                     try {
                         // Chiama la funzione per caricare la card
-                        [$retval, $retmsg] = carica_card($foreignWord, $nativeWord, $lingua);
+                        [$retval, $retmsg] = carica_card($foreignWord, $nativeWord, $corso);
                     } catch (Exception $e) {
                         $err_msg = $e->getMessage();
                         continue; // Continua con la prossima parola se c'è un errore
