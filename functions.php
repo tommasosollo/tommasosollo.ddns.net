@@ -216,7 +216,7 @@ function carica_card($foreign_word, $native_word, $corso) {
     }
 }
 
-function crea_mazzo($corso) {
+function crea_mazzo($corso, $nCarte = 30) {
     $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
     if (!$conn) {
         throw new Exception("Errore di connessione al database");
@@ -237,7 +237,7 @@ function crea_mazzo($corso) {
         WHERE v.IDUtente = (SELECT IDUtente FROM Utenti WHERE Username = ?)
         AND TIMESTAMPDIFF(MINUTE, v.LastSeen, NOW()) >= v.MinutesToPass
         AND c.IDCorso = ?
-        ORDER BY RAND() LIMIT 30";
+        ORDER BY RAND() LIMIT $nCarte";
 
     $stmt = mysqli_prepare($conn, $query);
     mysqli_stmt_bind_param($stmt, "si", $_SESSION['user'], $corso);
@@ -251,9 +251,9 @@ function crea_mazzo($corso) {
         }
     }
 
-    // **2️⃣ Se il mazzo ha meno di 30 carte, prendi nuove carte dalla tabella cards**
-    if (count($mazzo) < 30) {
-        $carte_mancanti = 30 - count($mazzo);
+    // **2️⃣ Se il mazzo ha meno di $nCarte carte, prendi nuove carte dalla tabella cards**
+    if (count($mazzo) < $nCarte) {
+        $carte_mancanti = $nCarte - count($mazzo);
 
         // Seleziona nuove carte evitando quelle già presenti nella tabella visione per l'utente
         $query = "
@@ -272,7 +272,7 @@ function crea_mazzo($corso) {
         $result = mysqli_stmt_get_result($stmt);
 
         while ($row = mysqli_fetch_assoc($result)) {
-            if (count($mazzo) >= 30) {
+            if (count($mazzo) >= $nCarte) {
                 break;
             }
             if (!isset($parole_usate[$row['ForeignWord']])) {
@@ -349,6 +349,7 @@ function update_cards($card, $timeToPass) {
 
     return [true, "Carte aggiornate con successo"];
 }
+
 
 
 

@@ -27,6 +27,7 @@ body {
   margin: 20px;
   padding: 20px;
   border-radius: 30px;
+  flex-wrap: wrap;
 }
 
 header > a {
@@ -37,9 +38,16 @@ header > a {
   border-radius: 30px;
 }
 
+#linksContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
 .links {
   justify-content: center;
-  margin: 20px;
+  margin: 10px;
   border-radius: 30px;
   padding: 10px;
   padding-left: 20px;
@@ -47,6 +55,12 @@ header > a {
   text-decoration: none;
   color: #252422;
   background-color: #eb5e28;
+}
+
+button > a {
+  text-decoration: none;
+  color: #252422;
+  font-weight: 800;
 }
 
 @media (max-width: 600px) {
