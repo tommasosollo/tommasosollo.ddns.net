@@ -1,16 +1,21 @@
 errors = 0;
-cardList = [
-  "img/darkness",
-  "img/double",
-  "img/fairy",
-  "img/fighting",
-  "img/fire",
-  "img/grass",
-  "img/lightning",
-  "img/metal",
-  "img/psychic",
-  "img/water",
-];
+
+let cardList = [];
+
+// Build a card object for each foreign and native word
+wordPairs.forEach((pair, index) => {
+  cardList.push({
+    id: index,
+    type: "foreign",
+    word: pair.ForeignWord,
+  });
+
+  cardList.push({
+    id: index,
+    type: "native",
+    word: pair.NativeWord,
+  });
+});
 
 cardSet = undefined;
 board = [];
@@ -21,91 +26,84 @@ card1Selected = undefined;
 card2Selected = undefined;
 
 window.onload = function () {
-  shuffleCards();
+  shuffleCards(cardList);
   startGame();
 
   restartButton = document.getElementById("button");
   restartButton.addEventListener("click", restartGame);
 
-  cardsContainerDiv = document.getElementById("container");
+  cardsContainerDiv = document.getElementById("CardsContainer");
 };
 
-function shuffleCards() {
-  cardSet = cardList.concat(cardList); //two of each card
-  //shuffle cards
-  for (i = 0; i < cardSet.length; i++) {
-    j = Math.floor(Math.random() * cardSet.length);
-    //swap
-    temp = cardSet[i];
-    cardSet[i] = cardSet[j];
-    cardSet[j] = temp;
+function shuffleCards(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
 }
 
 function startGame() {
-  //arrange board
-  for (r = 0; r < rows; r++) {
-    row = [];
-    for (c = 0; c < columns; c++) {
-      cardImg = cardSet.pop();
-      row.push(cardImg);
+  shuffleCards(cardList);
 
-      card = document.createElement("img");
-      card.id = r.toString() + "-" + c.toString();
-      card.src = cardImg + ".jpg";
-      card.classList.add("card");
-      card.addEventListener("click", selectCard);
-      document.getElementById("board").appendChild(card);
-    }
-    board.push(row);
-  }
-  setTimeout(hideCards, 1000);
+  cardList.forEach((cardObj, i) => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.dataset.id = cardObj.id;
+    card.dataset.word = cardObj.word;
+
+    // Set the back side of the card to the image
+    card.style.backgroundImage = "url('img/back.jpg')";
+    card.style.backgroundSize = "cover"; // Cover the entire card
+    card.style.backgroundPosition = "center"; // Center the image
+
+    // Set the initial content to be empty
+    card.innerText = ""; // No text initially
+
+    // Add event listener to reveal the word
+    card.addEventListener("click", selectCard);
+    document.getElementById("board").appendChild(card);
+  });
 }
 
 function hideCards() {
   for (r = 0; r < rows; r++) {
     for (c = 0; c < columns; c++) {
       card = document.getElementById(r.toString() + "-" + c.toString());
-      card.src = "img/back.jpg";
+      card.innerText = "Back";
     }
   }
 }
 
 function selectCard() {
-  if (this.src.includes("back")) {
-    if (!card1Selected) {
-      card1Selected = this;
+  if (this.innerText !== "") return; // Carta già rivelata
 
-      cords = card1Selected.id.split("-");
-      r = parseInt(cords[0]);
-      c = parseInt(cords[1]);
+  // Rimuovi l'immagine di sfondo quando la carta viene cliccata
+  this.style.backgroundImage = "none"; // Rimuovi l'immagine di sfondo
+  this.innerText = this.dataset.word; // Rivelare la parola
 
-      card1Selected.src = board[r][c] + ".jpg";
-    } else if (!card2Selected && this != card1Selected) {
-      card2Selected = this;
-
-      cords = card2Selected.id.split("-");
-      r = parseInt(cords[0]);
-      c = parseInt(cords[1]);
-
-      card2Selected.src = board[r][c] + ".jpg";
-      setTimeout(update, 1000);
-    }
+  // Gestisci la selezione delle carte
+  if (!card1Selected) {
+    card1Selected = this;
+  } else if (!card2Selected && this !== card1Selected) {
+    card2Selected = this;
+    setTimeout(update, 500);
   }
 }
 
 function update() {
-  //if not the same flip back
-  if (card1Selected.src != card2Selected.src) {
-    card1Selected.src = "img/back.jpg";
-    card2Selected.src = "img/back.jpg";
+  if (card1Selected.dataset.id !== card2Selected.dataset.id) {
+    // Not a match
+    card1Selected.style.backgroundImage = "url('img/back.jpg')"; // Ripristina l'immagine di sfondo
+    card2Selected.style.backgroundImage = "url('img/back.jpg')"; // Ripristina l'immagine di sfondo
+    card1Selected.innerText = ""; // Nascondi il testo
+    card2Selected.innerText = ""; // Nascondi il testo
+
     errors++;
     document.getElementById("errors").innerText = errors;
-  } else if (card1Selected.src == card2Selected.src) {
+  } else {
+    // It's a match!
     card1Selected.removeEventListener("click", selectCard);
     card2Selected.removeEventListener("click", selectCard);
-
-    cardsContainerDiv.style = "display: none;";
   }
 
   card1Selected = null;
@@ -113,5 +111,5 @@ function update() {
 }
 
 function restartGame() {
-  window.location.href = "/PlayMemory";
+  window.location.href = "/PlayMemory?corso=" + corso;
 }

@@ -27,8 +27,11 @@
             $html_table .= '<div class="corso">';
             $html_table .= '<h3>' . $corso['Nome'] . '</h3>';
             $html_table .= '<br>';
-            $html_table .= '<a href="../PlayFlashCards?corso=' . urlencode($corso['IDCorso']) . '" class="links">Gioca</a>';
-            $html_table.= '<a href="../Disiscriviti?corso=' . urlencode($corso['IDCorso']) . '" class="links">Disiscriviti</a>';
+            $html_table .= '<div id="linksConatiner">';
+            $html_table .= '<button class=links><a href="../PlayFlashCards?corso=' . urlencode($corso['IDCorso']) . '">Gioca FlashCards</a></button>';
+            $html_table .= '<button class=links><a href="../PlayMemory?corso=' . urlencode($corso['IDCorso']) . '" >Gioca Memory</a></button>';
+            $html_table.= '<button class=links><a href="../Disiscriviti?corso=' . urlencode($corso['IDCorso']) . '" >Disiscriviti</a></button>';
+            $html_table .= '</div>';
             $html_table .= '</div>';
         }
 
