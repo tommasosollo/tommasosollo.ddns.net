@@ -281,7 +281,7 @@ function crea_mazzo($corso, $nCarte = 30) {
             }
         }
     }
-
+    
     return [!empty($mazzo), $mazzo];
 }
 
