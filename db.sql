@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS Visione (
     MinutesToPass INT NOT NULL,
     nOfConsecutiveEasy INT DEFAULT 0,
     FOREIGN KEY (IDUtente) REFERENCES Utenti(IDUtente),
-    FOREIGN KEY (IDCard) REFERENCES Cards(IDCard)
+    FOREIGN KEY (IDCard) REFERENCES Cards(IDCard) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Iscrizioni (
